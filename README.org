@@ -1,1 +1,322 @@
 * Писать игры на Lisp – кайфово!
+** Об авторе
+[[file:img/author.jpg]]
+
+*Андрей Кравчук*
+
++ Преподаватель и автор курсов в Otus
++ UNIX-гик и Lisp-фанатик 😅
++ Писал на Common Lisp за деньги
++ В свободное от работы время делаю на нём видеоигры
+
+** Мой путь в геймдеве на Lisp
+*** 2018. SICP
+[[https://github.com/lockie/sicp-exercises][sicp-exercises]]
+
+[[file:img/sicp.jpg]]
+
+*** 2019. Spring Lisp Game Jam '19
+[[https://awkravchuk.itch.io/darkness-looming][Darkness Looming]] (Racket, SDL2)
+#15/17
+
+[[file:img/dl.png]]
+
+*** 2019. racket-sdl2
+[[https://github.com/lockie/racket-sdl2][racket-sdl2]]
+
+[[file:img/racket-sdl2.png]]
+
+*** 2019. GMTK Game Jam '19
+[[https://awkravchuk.itch.io/backpackless][Backpackless]] (Fennel, LÖVE2D)
+#885/2553
+
+[[file:img/backpackless.png]]
+
+*** 2019. d2clone-kit
+[[https://gitlab.com/lockie/d2clone-kit][d2clone-kit]] (Common Lisp, liballegro)
+
+[[file:img/d2clone.png]]
+
+*** 2020. Spring Lisp Game Jam '20
+[[https://awkravchuk.itch.io/darkness-looming-the-dawn][Darkness Looming: The Dawn]]
+#6/21
+
+[[file:img/dl-dawn.png]]
+
+*** 2020. Twitch
+[[https://twitch.tv/awkravchuk][twitch.tv/awkravchuk]]
+
+[[file:img/stream.png]]
+
+*** 2020. GMTK Game Jam '20
+[[https://awkravchuk.itch.io/magegement][Magegement]] (Fennel, Amulet)
+#3119/5268
+
+[[file:img/magegement.png]]
+
+*** 2021. docker-lisp-gamedev
+[[https://gitlab.com/lockie/docker-lisp-gamedev][docker-lisp-gamedev]]
+
+*** 2023. cl-fast-ecs
+[[https://gitlab.com/lockie/cl-fast-ecs][cl-fast-ecs]] (Common Lisp)
+
+[[file:img/cl-fast-ecs.png]]
+
+*** 2023. Spring Lisp Game Jam '23
+[[https://awkravchuk.itch.io/thoughtbound][Thoughtbound]] (Common Lisp, liballegro)
+#13/29
+
+[[file:img/thoughtbound.png]]
+
+*** 2023. Autumn Lisp Game Jam '23
+[[https://awkravchuk.itch.io/mana-break][Mana Break]] (Common Lisp, liballegro)
+#6/16
+
+[[file:img/mana-break.png]]
+
+*** 2024. Spring Lisp Game Jam '24
+[[https://awkravchuk.itch.io/cycle-of-evil][Cycle of Evil]] (Common Lisp, liballegro)
+#26/48
+
+[[file:img/cycle-of-evil.png]]
+
+** Источники вдохновения
++ Diablo 2 😊
++ Quake
++ Shinmera's [[https://kandria.com][Kandria]] & [[https://github.com/Shirakumo/trial][Trial game engine]]
+
+[[file:img/kandria.png]]
+
+** Почему Common Lisp?
+[[file:img/logo.png]]
+
+[[https://habr.com/ru/articles/737316][Использование высокодинамичного языка для разработки]]
+
++ производительность
+  + компиляция в нативный код
+  + функция ~disassemble~
+  + взаимодействие с компилятором через ~declare~
+  + последовательная типизация
++ практичность
+  + [[https://github.com/cffi/cffi][CFFI]]
+  + негигиеничные макросы
++ уникальные фичи
+  + интерактивная разработка ([[https://github.com/cbaggers/livesupport][livesupport]])
+  + обработка ошибок
+
+** Почему liballegro?
++ начал с SDL2
++ GUI: [[https://github.com/Immediate-Mode-UI/Nuklear][Nuklear]]
++ SDL2-бэкенд Nuklear [[https://github.com/Immediate-Mode-UI/Nuklear/blob/1e4eacca2e3e4abd4d8b793c580c71f2e5315651/demo/sdl_opengl2/nuklear_sdl_gl2.h#L66][использовал]] "сырыe" OpenGL вызовы
++ [[https://stackoverflow.com/a/41091998/1336774][Невозможно]] одновременно использовать высокоуровневые API SDL2 вроде =SDL_RenderCopy= и сырой OpenGL
++ Бэкенды Nuklear: SDL2, SFML, [[https://liballeg.org][liballegro]]
++ Common Lisp-биндинг: [[https://github.com/resttime/cl-liballegro][cl-liballegro]]
++ [[https://gitlab.com/lockie/cl-liballegro-nuklear][cl-liballegro-nuklear]]
++ А два года спустя [[https://github.com/Immediate-Mode-UI/Nuklear/tree/master/demo/sdl_renderer][появился]] бэкэнд Nuklear с высокоуровневыми API SDL2 😅
+
+** С чего начать?
++ [[https://lispgames.github.io][Lisp Games Wiki]]
++ [[https://github.com/lockie/cookiecutter-lisp-game][cookiecutter-lisp-game]]
++ [[https://mapeditor.org][Tiled]] & [[https://github.com/Zulu-Inuoe/cl-tiled][cl-tiled]]
++ [[https://aseprite.org][Aseprite]] & [[https://gitlab.com/lockie/cl-aseprite][cl-aseprite]]
++ [[https://habr.com/ru/articles/767342][Геймдев на Lisp. Часть 1: ECS и металингвистическая абстракция]]
+
+** Архитектурный паттерн Entity-Component-System
+[[https://youtu.be/rX0ItVEVjHc][Data-oriented design]]
+
++ декомпозиция кода
++ гибкость изменения структуры объектов
++ производительность за счёт утилизации кэшей CPU
+
+** Кэши CPU
+[[file:img/cpu-mem-gap.png]]
+Источник: [[https://aras-p.info/texts/files/2018Academy%20-%20ECS-DoD.pdf][Aras Pranckevičius, Entity Component Systems & Data Oriented Design]]
+
+** SoA
+Array of structures ⟶ Structure of arrays
+
+#+begin_src lisp
+  (defstruct pos
+    (x 0.0 :type single-float)
+    (y 0.0 :type single-float))
+
+  (setf positions (make-array 100 :element-type 'pos))
+
+  (loop :with sum-x := 0.0
+        :with sum-y := 0.0
+        :for entity :from 0 :below 100
+        :for p := (aref positions entity)
+        :for x := (pos-x p)
+        :for y := (pos-y p)
+        :do ;; something with x & y
+        (incf sum-x x)
+        (incf sum-y y))
+#+end_src
+
+[[file:img/aos.png]]
+Источник: [[https://github.com/SanderMertens/flecs_not_for_dummies][Sander Mertens, Flecs (not for dummies)]]
+
+#+begin_src lisp
+  (defstruct positions
+    (x (make-array 100 :element-type 'single-float))
+    (y (make-array 100 :element-type 'single-float)))
+
+  (setf positions (make-positions))
+
+  (loop :with sum-x := 0
+        :with sum-y := 0
+        :with xs := (positions-x positions)
+        :with ys := (positions-y positions)
+        :for entity :from 0 :below 100
+        :for x := (aref xs entity)
+        :for y := (aref ys entity)
+        :do ;; something with x & y
+        (incf sum-x x)
+        (incf sum-y y))
+#+end_src
+
+[[file:img/soa.png]]
+Источник: [[https://github.com/SanderMertens/flecs_not_for_dummies][Sander Mertens, Flecs (not for dummies)]]
+
+** ECS
+
+[[file:img/ecs.png]]
+Источник: [[https://habr.com/ru/companies/pixonic/articles/413729][Как и почему мы написали свой ECS]]
+
+** ECS: пример
+[[file:img/entities.png]]
+
+** cl-fast-ecs
+[[https://awkravchuk.itch.io/cl-fast-ecs][Blazingly fast Entity-Component-System microframework ⚡📦]]
+
+#+begin_src lisp :results output :session demo
+  (declaim (optimize (speed 3) (debug 0) (safety 0) (compilation-speed 0)))
+
+  (ql:quickload :cl-fast-ecs)
+
+  (ecs:defcomponent position
+    "Location information"
+    (x 0.0 :type single-float :documentation "X coordinate")
+    (y 0.0 :type single-float :documentation "Y coordinate"))
+
+  (ecs:defcomponent velocity
+    (x 0.0 :type single-float)
+    (y 0.0 :type single-float))
+
+  (ecs:defsystem move
+    (:components-ro (velocity)
+     :components-rw (position))
+    "Moves objects according to their velocity."
+    (incf position-x velocity-x)
+    (incf position-y velocity-y))
+
+  (ecs:defsystem print
+    (:components-ro (position))
+    (format t "entity ~a: (~a, ~a)~%" entity position-x position-y))
+
+  (ecs:bind-storage)
+
+  (let ((entity0 (ecs:make-entity)))
+    (make-position entity0 :x 0.0 :y 0.0)
+    (make-velocity entity0 :x 0.5 :y 0.5)
+    (ecs:make-object '((:position :x 1.0 :y 1.0)
+                       (:velocity :x 0.1 :y 0.1)))
+    (dotimes (i 3)
+      (ecs:run-systems)))
+#+end_src
+
+** ECS: пример
+#+begin_src lisp
+  (ecs:defsystem render-map-tiles
+    (:components-ro (position size image map-tile)
+     :initially (al:hold-bitmap-drawing t)
+     :finally (al:hold-bitmap-drawing nil))
+    (al:draw-scaled-bitmap image-bitmap
+                           0.0 0.0
+                           size-width size-height
+                           position-x position-y
+                           (* +scale-factor+ size-width)
+                           (* +scale-factor+ size-height)
+                           0))
+#+end_src
+
+#+begin_src lisp
+  (ecs:defsystem update-sprites
+    (:components-ro (animation-sequence)
+     :components-rw (animation-state)
+     :arguments ((:dt single-float)))
+    (incf animation-state-time dt)
+    (when (> animation-state-time animation-sequence-frame-duration)
+      (multiple-value-bind (nframes rest-time)
+          (floor animation-state-time animation-sequence-frame-duration)
+        (declare (type non-negative-fixnum nframes))
+        (setf animation-state-time rest-time)
+        (multiple-value-bind (repeat frame)
+            (truncate (+ animation-state-frame nframes) animation-sequence-frames)
+          (setf animation-state-frame (cond
+                                        ((zerop repeat)
+                                         frame)
+                                        ((zerop animation-sequence-repeat)
+                                         (setf animation-state-finished 1)
+                                         (1- animation-sequence-frames))
+                                        (t
+                                         frame)))))))
+#+end_src
+
+** Металингвистическая абстракция
+#+begin_src lisp :results output :session demo
+  (print
+   (macroexpand-1
+    '(ecs:defcomponent position
+      "Location information"
+      (x 0.0 :type single-float :documentation "X coordinate")
+      (y 0.0 :type single-float :documentation "Y coordinate"))))
+#+end_src
+
+** Производительность
+[[https://youtu.be/oPn5oBMECfY][Benchmarking cl-fast-ecs performance]]
+
+[[file:img/benchmark.png]]
+
+#+begin_src lisp :results output :session demo
+  (disassemble (rest (assoc :move ecs::*system-registry*)))
+#+end_src
+
+** ИИ: деревья поведения
+[[https://gitlab.com/lockie/cl-fast-behavior-trees][cl-fast-behavior-trees]]
+
+#+begin_src lisp :results output :session demo-trees
+  (ql:quickload :cl-fast-behavior-trees)
+
+  (fbt:define-behavior-tree/debug test
+      ((repeat :name "root")
+       ((fallback :name "fall")
+        ((sequence :name "seq")
+         ((always-true :name "node1"))
+         (parallel
+          ((always-false :name "node2"))
+          ((always-false :name "node3"))))
+        ((always-false :name "node4"))
+        ((always-true :name "node5")))))
+
+  (ecs:bind-storage)
+
+  (make-test-behavior-tree (ecs:make-entity))
+
+  (dotimes (_ 8) (ecs:run-systems) (format t "---~%"))
+
+  (fbt:dump-behavior-tree/picture 0 "/tmp/tree.png")
+#+end_src
+
+[[file:/tmp/tree.png]]
+
+** Примеры деревьев поведения
+[[file:img/offensive-tree.png]]
+
+[[file:img/peasant-tree.png]]
+
+** Заключение
++ Писать игры на лиспах — кайф 😊
++ Есть [[https://github.com/lockie/cookiecutter-lisp-game][готовый шаблон]] для Common Lisp, [[https://gitlab.com/lockie/cl-fast-ecs][ECS-фреймворк]] и [[https://habr.com/ru/articles/767342][серия туториалов]].
++ В творческих планах — создание универсального игрового 2D движка.
++ Подписывайтесь на мой телеграм-канал [[https://t.me/lisp_exile][t.me/lisp_exile]], чтобы следить за обновлениями!
