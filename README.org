@@ -225,6 +225,21 @@ Array of structures ⟶ Structure of arrays
       (ecs:run-systems)))
 #+end_src
 
+#+RESULTS:
+#+begin_example
+To load "cl-fast-ecs":
+  Load 1 ASDF system:
+    cl-fast-ecs
+; Loading "cl-fast-ecs"
+
+entity 0: (0.0, 0.0)
+entity 1: (1.0, 1.0)
+entity 0: (0.5, 0.5)
+entity 1: (1.1, 1.1)
+entity 0: (1.0, 1.0)
+entity 1: (1.2, 1.2)
+#+end_example
+
 ** ECS: пример
 #+begin_src lisp
   (ecs:defsystem render-map-tiles
@@ -273,6 +288,495 @@ Array of structures ⟶ Structure of arrays
       (y 0.0 :type single-float :documentation "Y coordinate"))))
 #+end_src
 
+#+RESULTS:
+#+begin_example
+
+(PROGN
+ (EVAL-WHEN (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)
+   (PROGN
+    (DECLAIM
+     (FTYPE (FUNCTION (POSITION-SOA205 ALEXANDRIA:ARRAY-LENGTH))
+      %ADJUST-POSITION-SOA))
+    (DEFSTRUCT
+        (POSITION-SOA205 (:CONC-NAME %POSITION-SOA-)
+         (:CONSTRUCTOR %MAKE-POSITION-SOA*) (:COPIER NIL) (:PREDICATE NIL)
+         (:INCLUDE CL-FAST-ECS::COMPONENT-SOA))
+      "Location information"
+      (X
+       (MAKE-ARRAY 0 :INITIAL-ELEMENT
+                   (LET* ((X 0.0) (Y 0.0))
+                     (DECLARE (IGNORABLE X Y))
+                     X)
+                   :ELEMENT-TYPE 'SINGLE-FLOAT)
+       :TYPE (SIMPLE-ARRAY SINGLE-FLOAT (*)))
+      (Y
+       (MAKE-ARRAY 0 :INITIAL-ELEMENT
+                   (LET* ((X 0.0) (Y 0.0))
+                     (DECLARE (IGNORABLE X Y))
+                     Y)
+                   :ELEMENT-TYPE 'SINGLE-FLOAT)
+       :TYPE (SIMPLE-ARRAY SINGLE-FLOAT (*))))
+    (DEFUN %MAKE-POSITION-SOA
+           (CL-FAST-ECS::ENTITIES-ALLOCATED CL-FAST-ECS::OLD-COMPONENT-STORAGE)
+      (COND
+       (CL-FAST-ECS::OLD-COMPONENT-STORAGE
+        (LET* ((CL-FAST-ECS::ALLOCATED
+                (CL-FAST-ECS::COMPONENT-SOA-ALLOCATED
+                 CL-FAST-ECS::OLD-COMPONENT-STORAGE))
+               (CL-FAST-ECS::OLD-SLOTS
+                (CL-FAST-ECS::COMPONENT-SOA-SLOTS
+                 CL-FAST-ECS::OLD-COMPONENT-STORAGE))
+               (CL-FAST-ECS::SOA
+                (%MAKE-POSITION-SOA* :ALLOCATED CL-FAST-ECS::ALLOCATED :EXISTS
+                                     (CL-FAST-ECS::COMPONENT-SOA-EXISTS
+                                      CL-FAST-ECS::OLD-COMPONENT-STORAGE)
+                                     :MIN-ENTITY
+                                     (CL-FAST-ECS::COMPONENT-SOA-MIN-ENTITY
+                                      CL-FAST-ECS::OLD-COMPONENT-STORAGE)
+                                     :MAX-ENTITY
+                                     (CL-FAST-ECS::COMPONENT-SOA-MAX-ENTITY
+                                      CL-FAST-ECS::OLD-COMPONENT-STORAGE)
+                                     :COUNT
+                                     (CL-FAST-ECS::COMPONENT-SOA-COUNT
+                                      CL-FAST-ECS::OLD-COMPONENT-STORAGE)
+                                     :X
+                                     (LET ((CL-FAST-ECS::OLD-SLOT
+                                            (GETHASH :X
+                                                     CL-FAST-ECS::OLD-SLOTS)))
+                                       (IF (AND CL-FAST-ECS::OLD-SLOT
+                                                (EQ 'SINGLE-FLOAT
+                                                    (ARRAY-ELEMENT-TYPE
+                                                     CL-FAST-ECS::OLD-SLOT)))
+                                           CL-FAST-ECS::OLD-SLOT
+                                           (MAKE-ARRAY CL-FAST-ECS::ALLOCATED
+                                                       :INITIAL-ELEMENT
+                                                       (LET* ((X 0.0) (Y 0.0))
+                                                         (DECLARE
+                                                          (IGNORABLE X Y))
+                                                         X)
+                                                       :ELEMENT-TYPE
+                                                       'SINGLE-FLOAT)))
+                                     :Y
+                                     (LET ((CL-FAST-ECS::OLD-SLOT
+                                            (GETHASH :Y
+                                                     CL-FAST-ECS::OLD-SLOTS)))
+                                       (IF (AND CL-FAST-ECS::OLD-SLOT
+                                                (EQ 'SINGLE-FLOAT
+                                                    (ARRAY-ELEMENT-TYPE
+                                                     CL-FAST-ECS::OLD-SLOT)))
+                                           CL-FAST-ECS::OLD-SLOT
+                                           (MAKE-ARRAY CL-FAST-ECS::ALLOCATED
+                                                       :INITIAL-ELEMENT
+                                                       (LET* ((X 0.0) (Y 0.0))
+                                                         (DECLARE
+                                                          (IGNORABLE X Y))
+                                                         Y)
+                                                       :ELEMENT-TYPE
+                                                       'SINGLE-FLOAT)))))
+               (CL-FAST-ECS::SLOTS
+                (CL-FAST-ECS::COMPONENT-SOA-SLOTS CL-FAST-ECS::SOA)))
+          (DECLARE (IGNORABLE CL-FAST-ECS::OLD-SLOTS CL-FAST-ECS::SLOTS))
+          (SETF (GETHASH :X CL-FAST-ECS::SLOTS)
+                  (%POSITION-SOA-X CL-FAST-ECS::SOA)
+                (GETHASH :Y CL-FAST-ECS::SLOTS)
+                  (%POSITION-SOA-Y CL-FAST-ECS::SOA))
+          CL-FAST-ECS::SOA))
+       (T
+        (LET* ((CL-FAST-ECS::SOA
+                (%MAKE-POSITION-SOA* :EXISTS
+                                     (MAKE-ARRAY
+                                      CL-FAST-ECS::ENTITIES-ALLOCATED
+                                      :ELEMENT-TYPE 'BIT :INITIAL-ELEMENT 0)))
+               (CL-FAST-ECS::SLOTS
+                (CL-FAST-ECS::COMPONENT-SOA-SLOTS CL-FAST-ECS::SOA)))
+          (DECLARE (IGNORABLE CL-FAST-ECS::SLOTS))
+          (SETF (GETHASH :X CL-FAST-ECS::SLOTS)
+                  (%POSITION-SOA-X CL-FAST-ECS::SOA)
+                (GETHASH :Y CL-FAST-ECS::SLOTS)
+                  (%POSITION-SOA-Y CL-FAST-ECS::SOA))
+          CL-FAST-ECS::SOA))))
+    (LET* ((X 0.0) (Y 0.0))
+      (DEFUN %ADJUST-POSITION-SOA (CL-FAST-ECS::SOA CL-FAST-ECS::NEW-SIZE)
+        (DECLARE (OPTIMIZE (SAFETY 0)))
+        (SETF (%POSITION-SOA-X CL-FAST-ECS::SOA)
+                (CL-FAST-ECS::ADJUST-ARRAY*
+                  (%POSITION-SOA-X CL-FAST-ECS::SOA)
+                  CL-FAST-ECS::NEW-SIZE
+                  :ELEMENT-TYPE
+                  'SINGLE-FLOAT
+                  :INITIAL-ELEMENT
+                  X))
+        (SETF (%POSITION-SOA-Y CL-FAST-ECS::SOA)
+                (CL-FAST-ECS::ADJUST-ARRAY*
+                  (%POSITION-SOA-Y CL-FAST-ECS::SOA)
+                  CL-FAST-ECS::NEW-SIZE
+                  :ELEMENT-TYPE
+                  'SINGLE-FLOAT
+                  :INITIAL-ELEMENT
+                  Y))
+        (LET ((CL-FAST-ECS::SLOTS
+               (CL-FAST-ECS::COMPONENT-SOA-SLOTS CL-FAST-ECS::SOA)))
+          (DECLARE (IGNORABLE CL-FAST-ECS::SLOTS))
+          (SETF (GETHASH :X CL-FAST-ECS::SLOTS)
+                  (%POSITION-SOA-X CL-FAST-ECS::SOA)
+                (GETHASH :Y CL-FAST-ECS::SLOTS)
+                  (%POSITION-SOA-Y CL-FAST-ECS::SOA)))
+        (SETF (CL-FAST-ECS::COMPONENT-SOA-ALLOCATED CL-FAST-ECS::SOA)
+                CL-FAST-ECS::NEW-SIZE)))
+    NIL)
+   (UNLESS (BOUNDP 'CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)
+     (DECLAIM
+      (TYPE ALEXANDRIA:ARRAY-INDEX CL-FAST-ECS::+POSITION-COMPONENT-INDEX+))
+     (DEFCONSTANT CL-FAST-ECS::+POSITION-COMPONENT-INDEX+
+       CL-FAST-ECS::*COMPONENT-REGISTRY-LENGTH*)
+     (INCF CL-FAST-ECS::*COMPONENT-REGISTRY-LENGTH*))
+   (SETF (GETF CL-FAST-ECS::*COMPONENT-REGISTRY* :POSITION)
+           #'%MAKE-POSITION-SOA))
+ (CL-FAST-ECS::RUN-HOOK
+  (IF (BOUNDP 'CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)
+      CL-FAST-ECS:*COMPONENT-REDEFINED-HOOK*
+      CL-FAST-ECS:*COMPONENT-DEFINED-HOOK*)
+  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+ #'%MAKE-POSITION-SOA)
+ (DECLAIM (INLINE POSITION-X (SETF POSITION-X))
+          (FTYPE (FUNCTION (CL-FAST-ECS:ENTITY) SINGLE-FLOAT) POSITION-X)
+          (FTYPE (FUNCTION (SINGLE-FLOAT CL-FAST-ECS:ENTITY) SINGLE-FLOAT)
+           (SETF POSITION-X)))
+ (DEFUN POSITION-X (CL-FAST-ECS:ENTITY)
+   "X coordinate"
+   (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+           (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+          (CL-FAST-ECS::SOA
+           (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)))
+     (AREF (THE (SIMPLE-ARRAY SINGLE-FLOAT) (%POSITION-SOA-X CL-FAST-ECS::SOA))
+           CL-FAST-ECS:ENTITY)))
+ (DEFUN (SETF POSITION-X) (CL-FAST-ECS::VALUE CL-FAST-ECS:ENTITY)
+   "X coordinate"
+   (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+           (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+          (CL-FAST-ECS::SOA
+           (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+))
+          (CL-FAST-ECS::DATA
+           (THE (SIMPLE-ARRAY SINGLE-FLOAT)
+                (%POSITION-SOA-X CL-FAST-ECS::SOA))))
+     NIL
+     NIL
+     (SETF (AREF CL-FAST-ECS::DATA CL-FAST-ECS:ENTITY) CL-FAST-ECS::VALUE)))
+ (DECLAIM (INLINE POSITION-Y (SETF POSITION-Y))
+          (FTYPE (FUNCTION (CL-FAST-ECS:ENTITY) SINGLE-FLOAT) POSITION-Y)
+          (FTYPE (FUNCTION (SINGLE-FLOAT CL-FAST-ECS:ENTITY) SINGLE-FLOAT)
+           (SETF POSITION-Y)))
+ (DEFUN POSITION-Y (CL-FAST-ECS:ENTITY)
+   "Y coordinate"
+   (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+           (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+          (CL-FAST-ECS::SOA
+           (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)))
+     (AREF (THE (SIMPLE-ARRAY SINGLE-FLOAT) (%POSITION-SOA-Y CL-FAST-ECS::SOA))
+           CL-FAST-ECS:ENTITY)))
+ (DEFUN (SETF POSITION-Y) (CL-FAST-ECS::VALUE CL-FAST-ECS:ENTITY)
+   "Y coordinate"
+   (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+           (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+          (CL-FAST-ECS::SOA
+           (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+))
+          (CL-FAST-ECS::DATA
+           (THE (SIMPLE-ARRAY SINGLE-FLOAT)
+                (%POSITION-SOA-Y CL-FAST-ECS::SOA))))
+     NIL
+     NIL
+     (SETF (AREF CL-FAST-ECS::DATA CL-FAST-ECS:ENTITY) CL-FAST-ECS::VALUE)))
+ (DECLAIM
+  (FTYPE
+   (FUNCTION (CL-FAST-ECS:ENTITY &KEY (:X SINGLE-FLOAT) (:Y SINGLE-FLOAT)))
+   MAKE-POSITION))
+ (DEFUN MAKE-POSITION (CL-FAST-ECS:ENTITY &KEY (X 0.0) (Y 0.0))
+   "Add component with given values to an entity."
+   (CL-FAST-ECS::MAYBE-CHECK-ENTITY
+     CL-FAST-ECS:ENTITY)
+   (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+           (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+          (CL-FAST-ECS::SOA
+           (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)))
+     (IF (ZEROP
+          (SBIT (CL-FAST-ECS::COMPONENT-SOA-EXISTS CL-FAST-ECS::SOA)
+                CL-FAST-ECS:ENTITY))
+         (BLOCK CL-FAST-ECS::NEW
+           (WHEN
+               (>= CL-FAST-ECS:ENTITY
+                   (CL-FAST-ECS::COMPONENT-SOA-ALLOCATED CL-FAST-ECS::SOA))
+             (LET ((CL-FAST-ECS::NEW-SIZE
+                    (CL-FAST-ECS::NEW-CAPACITY (1+ CL-FAST-ECS:ENTITY))))
+               (%ADJUST-POSITION-SOA CL-FAST-ECS::SOA CL-FAST-ECS::NEW-SIZE)
+               (CL-FAST-ECS::RUN-HOOK
+                CL-FAST-ECS:*COMPONENT-STORAGE-GROWN-HOOK*
+                CL-FAST-ECS::+POSITION-COMPONENT-INDEX+
+                CL-FAST-ECS::NEW-SIZE)))
+           (INCF (CL-FAST-ECS::COMPONENT-SOA-COUNT CL-FAST-ECS::SOA))
+           NIL
+           (WHEN
+               (< CL-FAST-ECS:ENTITY
+                  (CL-FAST-ECS::COMPONENT-SOA-MIN-ENTITY CL-FAST-ECS::SOA))
+             (SETF (CL-FAST-ECS::COMPONENT-SOA-MIN-ENTITY CL-FAST-ECS::SOA)
+                     CL-FAST-ECS:ENTITY))
+           (WHEN
+               (> CL-FAST-ECS:ENTITY
+                  (CL-FAST-ECS::COMPONENT-SOA-MAX-ENTITY CL-FAST-ECS::SOA))
+             (SETF (CL-FAST-ECS::COMPONENT-SOA-MAX-ENTITY CL-FAST-ECS::SOA)
+                     CL-FAST-ECS:ENTITY))
+           (SETF (SBIT (CL-FAST-ECS::COMPONENT-SOA-EXISTS CL-FAST-ECS::SOA)
+                       CL-FAST-ECS:ENTITY)
+                   1
+                 (SBIT
+                  (CL-FAST-ECS::STORAGE-COMPONENT-CREATED-BITS
+                   CL-FAST-ECS:*STORAGE*)
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)
+                   1))
+         (BLOCK CL-FAST-ECS::EXISTS))
+     (SETF (AREF
+            (THE (SIMPLE-ARRAY SINGLE-FLOAT)
+                 (%POSITION-SOA-X CL-FAST-ECS::SOA))
+            CL-FAST-ECS:ENTITY)
+             X
+           (AREF
+            (THE (SIMPLE-ARRAY SINGLE-FLOAT)
+                 (%POSITION-SOA-Y CL-FAST-ECS::SOA))
+            CL-FAST-ECS:ENTITY)
+             Y))
+   NIL)
+ (DEFMETHOD CL-FAST-ECS:MAKE-COMPONENT
+            ((CL-FAST-ECS::INDEX (EQL CL-FAST-ECS::+POSITION-COMPONENT-INDEX+))
+             CL-FAST-ECS:ENTITY
+             &REST CL-FAST-ECS::ARGS
+             &KEY (X 0.0) (Y 0.0))
+   (DECLARE (IGNORABLE X Y))
+   (APPLY #'MAKE-POSITION CL-FAST-ECS:ENTITY CL-FAST-ECS::ARGS))
+ (DECLAIM (FTYPE (FUNCTION (CL-FAST-ECS:ENTITY) BOOLEAN) HAS-POSITION-P))
+ (DEFUN HAS-POSITION-P (CL-FAST-ECS:ENTITY)
+   (CL-FAST-ECS::MAYBE-CHECK-ENTITY
+     CL-FAST-ECS:ENTITY)
+   (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+           (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+          (CL-FAST-ECS::SOA
+           (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)))
+     (NOT
+      (ZEROP
+       (SBIT (CL-FAST-ECS::COMPONENT-SOA-EXISTS CL-FAST-ECS::SOA)
+             CL-FAST-ECS:ENTITY)))))
+ (DECLAIM (FTYPE (FUNCTION (CL-FAST-ECS:ENTITY)) DELETE-POSITION))
+ (LET* ((X 0.0) (Y 0.0))
+   (DECLARE (IGNORABLE X Y))
+   (DEFUN DELETE-POSITION (CL-FAST-ECS:ENTITY)
+     (CL-FAST-ECS::MAYBE-CHECK-ENTITY
+       CL-FAST-ECS:ENTITY)
+     (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+             (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+            (CL-FAST-ECS::SOA
+             (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                    CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)))
+       NIL
+       NIL
+       (DECF (CL-FAST-ECS::COMPONENT-SOA-COUNT CL-FAST-ECS::SOA))
+       (SETF (SBIT (CL-FAST-ECS::COMPONENT-SOA-EXISTS CL-FAST-ECS::SOA)
+                   CL-FAST-ECS:ENTITY)
+               0
+             (SBIT
+              (CL-FAST-ECS::STORAGE-COMPONENT-REMOVED-BITS
+               CL-FAST-ECS:*STORAGE*)
+              CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)
+               1))
+     NIL))
+ (DEFMETHOD CL-FAST-ECS:DELETE-COMPONENT
+            ((CL-FAST-ECS::INDEX (EQL CL-FAST-ECS::+POSITION-COMPONENT-INDEX+))
+             CL-FAST-ECS:ENTITY)
+   (FUNCALL #'DELETE-POSITION CL-FAST-ECS:ENTITY))
+ (DEFMACRO %WITH-POSITION-SLOTS
+           (CL-FAST-ECS::BINDINGS CL-FAST-ECS::READONLY
+            CL-FAST-ECS::COMPONENT-STORAGES CL-FAST-ECS:ENTITY
+            &BODY CL-FAST-ECS::BODY)
+   (ALEXANDRIA:WITH-GENSYMS (CL-FAST-ECS::SOA)
+     (LET* ((CL-FAST-ECS::SOA-SLOT-BINDINGS
+             (MAPCAR
+              #'(LAMBDA (CL-FAST-ECS::N CL-FAST-ECS::S TYPE)
+                  `(,CL-FAST-ECS::N
+                    (THE (SIMPLE-ARRAY ,TYPE)
+                         (,(ALEXANDRIA:SYMBOLICATE :% 'POSITION :-SOA-
+                                                   CL-FAST-ECS::S)
+                          ,CL-FAST-ECS::SOA))))
+              '(#:X721 #:Y722) '(X Y) '(SINGLE-FLOAT SINGLE-FLOAT)))
+            (CL-FAST-ECS::ACCESSOR-NAMES
+             (MAPCAR
+              #'(LAMBDA (CL-FAST-ECS::S)
+                  (GENTEMP (FORMAT NIL "%~a" CL-FAST-ECS::S)))
+              '(X Y)))
+            (CL-FAST-ECS::SETTER-NAMES
+             (MAPCAR #'(LAMBDA (CL-FAST-ECS::N) `(SETF ,CL-FAST-ECS::N))
+                     CL-FAST-ECS::ACCESSOR-NAMES))
+            (CL-FAST-ECS::ACCESSOR-BINDINGS
+             (MAPCAN
+              #'(LAMBDA
+                    (CL-FAST-ECS::N CL-FAST-ECS::S CL-FAST-ECS::SLOT TYPE
+                     CL-FAST-ECS::I CL-FAST-ECS::U)
+                  `((,CL-FAST-ECS::N (CL-FAST-ECS:ENTITY)
+                     (AREF ,CL-FAST-ECS::S CL-FAST-ECS:ENTITY))
+                    ,@(WHEN T
+                        `(((SETF ,CL-FAST-ECS::N)
+                           (CL-FAST-ECS::V CL-FAST-ECS:ENTITY)
+                           (DECLARE
+                            (IGNORABLE CL-FAST-ECS::V CL-FAST-ECS:ENTITY)
+                            (TYPE ,TYPE CL-FAST-ECS::V))
+                           ,(IF CL-FAST-ECS::READONLY
+                                `(ERROR "~a slot ~a is readonly" ','POSITION
+                                        ',CL-FAST-ECS::SLOT)
+                                `(PROGN
+                                  ,(CL-FAST-ECS::%UPDATE-INDEX 'POSITION
+                                                               CL-FAST-ECS::SLOT
+                                                               CL-FAST-ECS::SOA
+                                                               CL-FAST-ECS::S
+                                                               'CL-FAST-ECS::V
+                                                               CL-FAST-ECS::I
+                                                               CL-FAST-ECS::U)
+                                  ,(CL-FAST-ECS::%UPDATE-COMPOSITE-INDEX
+                                    'POSITION CL-FAST-ECS::SLOT
+                                    CL-FAST-ECS::SOA 'CL-FAST-ECS::V '(X Y)
+                                    '(SINGLE-FLOAT SINGLE-FLOAT) 'NIL 'NIL NIL)
+                                  (SETF (AREF ,CL-FAST-ECS::S
+                                              CL-FAST-ECS:ENTITY)
+                                          CL-FAST-ECS::V))))))))
+              CL-FAST-ECS::ACCESSOR-NAMES '(#:X721 #:Y722) '(X Y)
+              '(SINGLE-FLOAT SINGLE-FLOAT) '(NIL NIL) '(NIL NIL)))
+            (CL-FAST-ECS::BINDING-NAMES
+             (OR CL-FAST-ECS::BINDINGS
+                 (MAPCAR
+                  #'(LAMBDA (CL-FAST-ECS::N)
+                      (ALEXANDRIA:SYMBOLICATE 'POSITION :- CL-FAST-ECS::N))
+                  '(X Y))))
+            (CL-FAST-ECS::SLOT-BINDINGS
+             (MAPCAR
+              #'(LAMBDA (CL-FAST-ECS::N CL-FAST-ECS::A)
+                  `(,CL-FAST-ECS::N (,CL-FAST-ECS::A ,CL-FAST-ECS:ENTITY)))
+              CL-FAST-ECS::BINDING-NAMES CL-FAST-ECS::ACCESSOR-NAMES)))
+       `(LET* ((,CL-FAST-ECS::SOA
+                (SVREF ,CL-FAST-ECS::COMPONENT-STORAGES
+                       ,'CL-FAST-ECS::+POSITION-COMPONENT-INDEX+))
+               ,@CL-FAST-ECS::SOA-SLOT-BINDINGS)
+          (DECLARE (IGNORABLE ,CL-FAST-ECS::SOA ,@(QUOTE (#:X721 #:Y722)))
+                   (MUFFLE-CONDITIONS CODE-DELETION-NOTE))
+          (FLET (,@CL-FAST-ECS::ACCESSOR-BINDINGS)
+            (DECLARE
+             (INLINE ,@CL-FAST-ECS::ACCESSOR-NAMES
+              ,@(UNLESS CL-FAST-ECS::READONLY CL-FAST-ECS::SETTER-NAMES))
+             (UNMUFFLE-CONDITIONS CODE-DELETION-NOTE))
+            (SYMBOL-MACROLET (,@CL-FAST-ECS::SLOT-BINDINGS)
+              ,@(IF NIL
+                    `((HANDLER-CASE (PROGN ,@CL-FAST-ECS::BODY)
+                                    (UNDEFINED-FUNCTION (CL-FAST-ECS::U)
+                                     (LET ((CL-FAST-ECS::F
+                                            (CELL-ERROR-NAME CL-FAST-ECS::U)))
+                                       (IF (AND
+                                            (EQ (FIRST CL-FAST-ECS::F) 'SETF)
+                                            (FIND (SECOND CL-FAST-ECS::F)
+                                                  ',CL-FAST-ECS::BINDING-NAMES
+                                                  :TEST #'EQ))
+                                           (ERROR "~a slot ~a is readonly"
+                                                  ','POSITION
+                                                  (SECOND CL-FAST-ECS::F))
+                                           (ERROR CL-FAST-ECS::U))))))
+                    CL-FAST-ECS::BODY)))))))
+ (DEFMACRO WITH-POSITION
+           (CL-FAST-ECS::BINDINGS CL-FAST-ECS:ENTITY &BODY CL-FAST-ECS::BODY)
+   "A convenience macro to access entity's component data.
+Prefer DEFSYSTEM to access the component data though."
+   (ALEXANDRIA:WITH-GENSYMS (CL-FAST-ECS::ENTITY-VAR)
+     (LET ((CL-FAST-ECS::INTERNAL-MACRO '%WITH-POSITION-SLOTS)
+           (CL-FAST-ECS::SLOT-NAMES '(X Y)))
+       `(PROGN
+         (LET ((,CL-FAST-ECS::ENTITY-VAR ,CL-FAST-ECS:ENTITY))
+           (DECLARE (IGNORABLE ,CL-FAST-ECS::ENTITY-VAR))
+           (CL-FAST-ECS::MAYBE-CHECK-ENTITY
+             ,CL-FAST-ECS::ENTITY-VAR)
+           (,CL-FAST-ECS::INTERNAL-MACRO
+            ,(OR CL-FAST-ECS::BINDINGS CL-FAST-ECS::SLOT-NAMES) NIL
+            (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*)
+            ,CL-FAST-ECS::ENTITY-VAR ,@CL-FAST-ECS::BODY))))))
+ (DEFUN ASSIGN-POSITION
+        (CL-FAST-ECS:ENTITY
+         &REST CL-FAST-ECS::ARGS
+         &KEY (X 0.0 X-SUPPLIED-P) (Y 0.0 Y-SUPPLIED-P))
+   "Creates or updates the component."
+   (CL-FAST-ECS::MAYBE-CHECK-ENTITY
+     CL-FAST-ECS:ENTITY)
+   (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+           (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+          (CL-FAST-ECS::SOA
+           (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)))
+     (DECLARE (IGNORABLE CL-FAST-ECS::SOA))
+     (IF (ZEROP
+          (SBIT (CL-FAST-ECS::COMPONENT-SOA-EXISTS CL-FAST-ECS::SOA)
+                CL-FAST-ECS:ENTITY))
+         (APPLY #'MAKE-POSITION CL-FAST-ECS:ENTITY CL-FAST-ECS::ARGS)
+         (%WITH-POSITION-SLOTS
+           (#:X723 #:Y724)
+           NIL
+           CL-FAST-ECS::COMPONENT-STORAGES
+           CL-FAST-ECS:ENTITY
+           (WHEN X-SUPPLIED-P (SETF #:X723 X))
+           (WHEN Y-SUPPLIED-P (SETF #:Y724 Y))
+           NIL))))
+ (DEFUN REPLACE-POSITION (CL-FAST-ECS::DST-ENTITY CL-FAST-ECS::SRC-ENTITY)
+   (DECLARE (IGNORABLE CL-FAST-ECS::SRC-ENTITY))
+   (CL-FAST-ECS::MAYBE-CHECK-ENTITY
+     CL-FAST-ECS::DEST-ENTITY)
+   (CL-FAST-ECS::MAYBE-CHECK-ENTITY
+     CL-FAST-ECS::SRC-ENTITY)
+   (%WITH-POSITION-SLOTS
+     (X Y)
+     T
+     (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*)
+     CL-FAST-ECS::SRC-ENTITY
+     (ASSIGN-POSITION CL-FAST-ECS::DST-ENTITY :X X :Y Y))
+   CL-FAST-ECS::DST-ENTITY)
+ (DEFMETHOD CL-FAST-ECS:PRINT-COMPONENT
+            ((CL-FAST-ECS::INDEX (EQL CL-FAST-ECS::+POSITION-COMPONENT-INDEX+))
+             CL-FAST-ECS:ENTITY
+             &OPTIONAL (STREAM *STANDARD-OUTPUT*))
+   (CL-FAST-ECS::MAYBE-CHECK-ENTITY
+     CL-FAST-ECS:ENTITY)
+   (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+           (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+          (CL-FAST-ECS::SOA
+           (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)))
+     (DECLARE (IGNORABLE CL-FAST-ECS::SOA))
+     (PRIN1
+      (LIST :POSITION :X
+            (AREF
+             (THE (SIMPLE-ARRAY SINGLE-FLOAT)
+                  (%POSITION-SOA-X CL-FAST-ECS::SOA))
+             CL-FAST-ECS:ENTITY)
+            :Y
+            (AREF
+             (THE (SIMPLE-ARRAY SINGLE-FLOAT)
+                  (%POSITION-SOA-Y CL-FAST-ECS::SOA))
+             CL-FAST-ECS:ENTITY))
+      STREAM)))
+ NIL
+ (DEFUN POSITION-COUNT ()
+   (LET* ((CL-FAST-ECS::COMPONENT-STORAGES
+           (CL-FAST-ECS::STORAGE-COMPONENT-STORAGES CL-FAST-ECS:*STORAGE*))
+          (CL-FAST-ECS::SOA
+           (SVREF CL-FAST-ECS::COMPONENT-STORAGES
+                  CL-FAST-ECS::+POSITION-COMPONENT-INDEX+)))
+     (CL-FAST-ECS::COMPONENT-SOA-COUNT CL-FAST-ECS::SOA)))
+ 'POSITION) 
+#+end_example
+
 ** Производительность
 [[https://youtu.be/oPn5oBMECfY][Benchmarking cl-fast-ecs performance]]
 
@@ -281,6 +785,58 @@ Array of structures ⟶ Structure of arrays
 #+begin_src lisp :results output :session demo
   (disassemble (rest (assoc :move ecs::*system-registry*)))
 #+end_src
+
+#+RESULTS:
+#+begin_example
+; disassembly for (FLET MOVE-SYSTEMG518)
+; Size: 185 bytes. Origin: #x55457206                         ; (FLET MOVE-SYSTEMG518)
+; 06:       8B0C255444AF50   MOV ECX, [#x50AF4454]            ; tls_index: CL-FAST-ECS:*STORAGE*
+; 0D:       4A8B0C29         MOV RCX, [RCX+R13]
+; 11:       4883F9FF         CMP RCX, -1
+; 15:       480F440C256044AF50 CMOVEQ RCX, [#x50AF4460]       ; CL-FAST-ECS:*STORAGE*
+; 1E:       488B4125         MOV RAX, [RCX+37]
+; 22:       488B4809         MOV RCX, [RAX+9]
+; 26:       488B7935         MOV RDI, [RCX+53]
+; 2A:       488B713D         MOV RSI, [RCX+61]
+; 2E:       488B4011         MOV RAX, [RAX+17]
+; 32:       4C8B5035         MOV R10, [RAX+53]
+; 36:       4C8B583D         MOV R11, [RAX+61]
+; 3A:       498B41F9         MOV RAX, [R9-7]
+; 3E:       4C8B4BF9         MOV R9, [RBX-7]
+; 42:       488BD8           MOV RBX, RAX
+; 45:       EB2F             JMP L2
+; 47:       660F1F840000000000 NOP
+; 50: L0:   498B48F9         MOV RCX, [R8-7]
+; 54:       488BD3           MOV RDX, RBX
+; 57:       48D1FA           SAR RDX, 1
+; 5A:       488BC2           MOV RAX, RDX
+; 5D:       48C1E806         SHR RAX, 6
+; 61:       488B44C101       MOV RAX, [RCX+RAX*8+1]
+; 66:       480FA3D0         BT RAX, RDX
+; 6A:       7217             JB L3
+; 6C: L1:   488BCB           MOV RCX, RBX
+; 6F:       4883C102         ADD RCX, 2
+; 73:       488BD9           MOV RBX, RCX
+; 76: L2:   4C39CB           CMP RBX, R9
+; 79:       7ED5             JLE L0
+; 7B:       BA17010050       MOV EDX, #x50000117              ; NIL
+; 80:       C9               LEAVE
+; 81:       F8               CLC
+; 82:       C3               RET
+; 83: L3:   488BC3           MOV RAX, RBX
+; 86:       488BCB           MOV RCX, RBX
+; 89:       F3410F104C4A01   MOVSS XMM1, [R10+RCX*2+1]
+; 90:       F30F10544701     MOVSS XMM2, [RDI+RAX*2+1]
+; 96:       F30F58D1         ADDSS XMM2, XMM1
+; 9A:       F30F11544701     MOVSS [RDI+RAX*2+1], XMM2
+; A0:       488BC3           MOV RAX, RBX
+; A3:       488BCB           MOV RCX, RBX
+; A6:       F3410F104C4B01   MOVSS XMM1, [R11+RCX*2+1]
+; AD:       F30F10544601     MOVSS XMM2, [RSI+RAX*2+1]
+; B3:       F30F58D1         ADDSS XMM2, XMM1
+; B7:       F30F11544601     MOVSS [RSI+RAX*2+1], XMM2
+; BD:       EBAD             JMP L1
+#+end_example
 
 ** ИИ: деревья поведения
 [[https://gitlab.com/lockie/cl-fast-behavior-trees][cl-fast-behavior-trees]]
